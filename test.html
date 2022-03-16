@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+
+    <style type="text/css">
+      body {
+         margin: 0;
+         padding: 0;
+         overflow-x: hidden;
+         background-color: #000;
+         /*background-image: url(test.jpg);*/
+         position: relative;
+         background-position: center;
+         background-size: contain;
+      }
+      section {
+         overflow: hidden !important;
+         width: 100%;
+         height: 100%;
+         min-height: 100vh;
+         position: relative;
+      }
+      span{
+        position: absolute;
+        border-radius: 50%;
+        background-color: #fff;
+        animation: ani1 3s linear infinite;
+      }
+      body, section{
+        background: transparent !important;
+      }
+      @keyframes ani1 {
+        0%{
+          transform: scale(0) translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        30%{
+          opacity: 0.1;
+        }
+        100%{
+          transform: scale(1) translateY(-500%) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+
+      span:nth-child(n+100) {
+         display: none;
+      }
+
+
+    </style>
+  </head>
+  <body>
+
+<section>
+</section>
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+
+
+<script>
+  let color = ['red', 'green', 'blue', 'pink', 'yellow'];
+  function square(){
+
+   var section = document.querySelector('section');
+   var square = document.createElement('span');
+
+   var size = Math.random() * 50;
+   square.style.width = 30 + size + 'px';
+   square.style.height = 30 + size + 'px';
+   square.style.top = Math.random() * innerHeight + 'px';
+   square.style.left = Math.random() * innerWidth + 'px';
+   let bg = color[Math.floor(Math.random() * color.length)];
+   square.style.background = bg;
+   section.appendChild(square);
+
+   setTimeout(() => {
+      square.romove();
+    }, 500)
+  }
+  setInterval(square, 100);
+
+</script>
+
+
+
+
+  </body>
+</html>
