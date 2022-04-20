@@ -29,6 +29,8 @@
 	backface-visibility: hidden;
 	transform-style: preserve-3d;
 	background-size: contain !important;
+	opacity: 0.5;
+	
 }
 .particle:nth-child(-n+60){
 	background:url(stars1.png) no-repeat center;
