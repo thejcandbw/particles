@@ -13,12 +13,12 @@
 
 
 <style type="text/css">
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  background: transparent;
 }
 .dg.ac {
   display: none;
@@ -26,10 +26,10 @@ body {
   visibility: hidden;
 }
 canvas {
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  background: transparent;
 }
 </style>
 
@@ -1144,12 +1144,12 @@ function init() {
     followMouse: true,
     shuffle: shuffle
   };
-
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
   cameraCtrl = new THREE.OrbitControls(camera);
 
-  renderer = new THREE.WebGLRenderer();
+  renderer = new THREE.WebGLRenderer( { alpha: true } );
+  renderer.setClearColor( 0x000000, 0 );
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
@@ -1175,7 +1175,8 @@ function init() {
 
 function initScene() {
   scene = new THREE.Scene();
-  scene.background = new THREE.Color( 'transparent' );
+  // scene.background = new THREE.Color( 0x000000, 0 );
+
 
   camera.position.z = 75;
 
@@ -1358,8 +1359,6 @@ function onMouseMove(event) {
 
 init();
 </script>
-
-
 
 
 
