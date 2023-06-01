@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<style type="text/css">
+  body {
+    background: transparent;
+    display: grid;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    overflow: hidden;
+}
+
+.lens-center {
+    position: relative;
+    width: 40vmin;
+    height: 40vmin;
+    border-radius: 100%;
+    left: calc(35% - (40vmin / 2));
+    top: calc(35% - (40vmin / 2));
+    background: radial-gradient(closest-side circle at center, hsl(33.6, 100%, 50%) 0%, hsl(16.8, 94.2%, 59.2%) 15%, hsla(17.1, 100%, 60.8%, 0.7) 30%, hsla(107.2, 100%, 71.6%, 0.3) 55%, hsla(70.3, 87.4%, 53.1%, 0.05) 75%, transparent 99% );
+    filter: blur(4px);
+}
+
+
+.lens-center::before {
+    content: '';
+    display: block;
+    width: 80vmin;
+    height: 80vmin;
+    left: calc((80vmin - 40vmin) / 2 * -1);
+    top: calc((80vmin - 40vmin) /2 * -1);
+    position: absolute;
+    border-radius: 100%;
+    background: radial-gradient(closest-side circle at center, hsla(42.3, 100%, 57.5%, 0.15) 0%, #ff4b4b00 100%);
+}
+.lens-center::after {
+    content: '';
+    display: block;
+    width: 4vmin;
+    height: 4vmin;
+    left: 65%;
+    bottom: 25%;
+    position: absolute;
+    border-radius: 100%;
+    background: radial-gradient(closest-side circle at center, hsl(4 30% 70% / 60%) 0%, transparent 75%);
+}
+
+.circle-1 {
+    width: calc(40vmin * 0.7);
+    height: calc(40vmin * 0.7);
+    left: 65%;
+    top: 65%;
+    border-radius: 100%;
+    position: absolute;
+    background: radial-gradient(closest-side circle at center, #ff434300 50%, hsla(4, 100%, 64.7%, 0.4) 90%, #fd444400 100%);
+    filter: blur(5px);
+}
+
+.circle-2 {
+    width: calc(40vmin * 0.4);
+    height: calc(40vmin * 0.4);
+    left: 62%;
+    top: 62%;
+    border-radius: 100%;
+    position: absolute;
+    background: hsla(28.2, 100%, 60%, 0.4);
+    filter: blur(2px);
+}
+
+.horizontal-flare {
+    position: absolute;
+    height: 5vh;
+}
+
+.right-flare {
+    left: 35%;
+    width: calc(100vw - 35%);
+    top: calc(35% - (5vh / 2));
+    background: radial-gradient(ellipse at center left, hsla(53.5, 100%, 51.2%, 0.8) 0%, hsla(50.6, 100%, 50%, 0.4) 30%, transparent 75%);
+    filter: opacity(50%);
+}
+
+.left-flare {
+    left: 0;
+    top: calc(35% - (5vh / 2));
+    width: 35%;
+    background: radial-gradient(ellipse at center right, hsla(53.6, 100%, 54.3%, 0.6) 0%, hsla(47.8, 100%, 56.5%, 0.4) 30%, transparent 75%);
+    filter: opacity(40%);
+}
+
+.full-flare {
+    background: radial-gradient(closest-side ellipse at 45% center, hsla(17, 100%, 50.2%, 0.8) 0%, hsla(25.4, 100%, 50%, 0.3) 30%, transparent 95%);
+    left: 0%;
+    width: 100%;
+    top: 75vh;
+    filter: blur(5px);
+}
+
+
+
+
+
+@keyframes mymove {
+  from {
+    opacity: .5;
+    transform: rotate(0deg);
+  }
+  to {
+    opacity: 1;
+
+    transform: rotate(5deg);
+  }
+}
+@keyframes mymove2 {
+  from {
+    opacity: 0.7;
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    opacity: 1;
+
+    transform: scale(1.1) rotate(20deg);
+  }
+}
+@keyframes mymove3 {
+  from {
+    opacity: 0.7;
+    transform: scale(1) rotate(5deg);
+  }
+  to {
+    opacity: 1;
+
+    transform: scale(1.01) rotate(-5deg);
+  }
+}
+.top-circle{
+    animation: mymove 5s infinite alternate;
+    }
+.circle-1{
+    animation: mymove2 2s infinite alternate;
+}
+.circle-2{
+    animation: mymove2 3s infinite alternate;
+}
+.full-flare.horizontal-flare{
+    animation: mymove3 7s infinite alternate;
+}
+
+
+
+
+
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="top-circle">
+    <div class="left-flare horizontal-flare"></div>
+    <div class="right-flare horizontal-flare"></div>
+    <div class="lens-center"></div>
+</div>
+<div class="bottom-circle">
+    <div class="full-flare horizontal-flare"></div>
+    <div class="circle-1"></div>
+    <div class="circle-2"></div>
+</div>
+<!-- partial -->
+  
+</body>
+</html>
