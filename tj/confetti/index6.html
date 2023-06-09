@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+      *, body, html{
+        padding: 0;
+        margin: 0;
+      }
+      body{
+        background: transparent;
+      }
+      @keyframes confetti-slow {
+      0% {
+      transform: translate3d(0, 0, 0) rotateX(0) rotateY(0);
+      }
+      100% {
+      transform: translate3d(25px, 105vh, 0) rotateX(360deg) rotateY(180deg);
+      }
+      }
+      @keyframes confetti-medium {
+      0% {
+      transform: translate3d(0, 0, 0) rotateX(0) rotateY(0);
+      }
+      100% {
+      transform: translate3d(100px, 105vh, 0) rotateX(100deg) rotateY(360deg);
+      }
+      }
+      @keyframes confetti-fast {
+      0% {
+      transform: translate3d(0, 0, 0) rotateX(0) rotateY(0);
+      }
+      100% {
+      transform: translate3d(-50px, 105vh, 0) rotateX(10deg) rotateY(250deg);
+      }
+      }
+      .container {
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      }
+      .confetti-container {
+      perspective: 500px;
+      position: absolute;
+      overflow: hidden;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      }
+      .confetti {
+      position: absolute;
+      z-index: 1;
+      top: -10px;
+      border-radius: 0%;
+      }
+      .confetti--animation-slow {
+      animation: confetti-slow 6.25s linear 1 forwards;
+      }
+      .confetti--animation-medium {
+      animation: confetti-medium 5.75s linear 1 forwards;
+      }
+      .confetti--animation-fast {
+      animation: confetti-fast 4.25s linear 1 forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- partial:index.partial.html -->
+    <div class="js-container container"></div>
+    <!-- partial -->
+    <script>
+      var Confettiful = function Confettiful(el) {
+        this.el = el;
+        this.containerEl = null;
+      
+        this.confettiFrequency = 3;
+        this.confettiColors = ["#fce18a", "#ff726d", "#b48def", "#f4306d"];
+        this.confettiAnimations = ["slow", "medium", "fast"];
+      
+        this._setupElements();
+        this._renderConfetti();
+      };
+      
+      Confettiful.prototype._setupElements = function() {
+        var containerEl = document.createElement("div");
+        var elPosition = this.el.style.position;
+      
+        if (elPosition !== "relative" || elPosition !== "absolute") {
+          this.el.style.position = "relative";
+        }
+      
+        containerEl.classList.add("confetti-container");
+      
+        this.el.appendChild(containerEl);
+      
+        this.containerEl = containerEl;
+      };
+      
+      Confettiful.prototype._renderConfetti = function() {
+        var _this = this;
+      
+        this.confettiInterval = setInterval(function() {
+          var confettiEl = document.createElement("div");
+          var confettiSize = Math.floor(Math.random() * 3) + 7 + "px";
+          var confettiBackground =
+            _this.confettiColors[
+              Math.floor(Math.random() * _this.confettiColors.length)
+            ];
+          var confettiLeft = Math.floor(Math.random() * _this.el.offsetWidth) + "px";
+          var confettiAnimation =
+            _this.confettiAnimations[
+              Math.floor(Math.random() * _this.confettiAnimations.length)
+            ];
+      
+          confettiEl.classList.add(
+            "confetti",
+            "confetti--animation-" + confettiAnimation
+          );
+          confettiEl.style.left = confettiLeft;
+          confettiEl.style.width = confettiSize;
+          confettiEl.style.height = confettiSize;
+          confettiEl.style.backgroundColor = confettiBackground;
+      
+          confettiEl.removeTimeout = setTimeout(function() {
+            confettiEl.parentNode.removeChild(confettiEl);
+          }, 3000);
+      
+          _this.containerEl.appendChild(confettiEl);
+        }, 200);
+      };
+      
+      window.confettiful = new Confettiful(document.querySelector(".js-container"));
+        
+        
+    </script>
+  </body>
+</html>
