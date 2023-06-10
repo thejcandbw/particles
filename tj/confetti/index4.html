@@ -99,7 +99,7 @@
             this.opacity += this.dop;
             if (this.opacity > 1) {
               this.opacity = 1;
-              this.dop *= -1;
+              this.dop *= -0.5;
             }
             if (this.opacity < 0 || this.y > this.ymax) {
               this.replace();
