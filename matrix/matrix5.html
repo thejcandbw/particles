@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - My Take on the Matrix Animation</title>
+  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
+  <style>
+    * {margin: 0; padding: 0;}
+canvas{display: block}
+
+body{background: black; overflow: hidden;}
+ 
+.dg.main.taller-than-window .close-button {
+    border-top: 1px solid #ddd;
+}
+
+.dg.main .close-button {
+    background-color: #ccc;
+}
+ 
+.dg.main .close-button:hover {
+    background-color: #ddd;
+}
+
+.dg {
+    display: none;
+    color: #555;
+    text-shadow: none !important;
+}
+
+.dg.main::-webkit-scrollbar {
+    background: #fafafa;
+}
+
+.dg.main::-webkit-scrollbar-thumb {
+    background: #bbb;
+}
+ 
+.dg li:not(.folder) {
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+}
+ 
+.dg li.save-row .button {
+    text-shadow: none !important;
+}
+
+.dg li.title {
+    background: #e8e8e8 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
+}
+
+.dg .cr.function:hover,.dg .cr.boolean:hover {
+    background: #fff;
+}
+ 
+.dg .c input[type=text] {
+    background: #e9e9e9;
+}
+ 
+.dg .c input[type=text]:hover {
+    background: #eee;
+}
+ 
+.dg .c input[type=text]:focus {
+    background: #eee;
+    color: #555;
+}
+ 
+.dg .c .slider {
+    background: #e9e9e9;
+}
+
+.dg .c .slider:hover {
+    background: #eee;
+}
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<canvas id="c"></canvas>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js'></script>
+<script>
+  var c = document.getElementById("c");
+var ctx = c.getContext("2d");
+
+//making the canvas full screen
+c.height = window.innerHeight;
+c.width = window.innerWidth;
+
+  var obj = {
+        characters: 'Hello World',
+        displayOutline: false,
+
+        fontSize: 6.0,
+        speed: 5,
+
+        height: 10,
+        noiseStrength: 10.2,
+        growthSpeed: 0.2,
+
+        type: 'three',
+
+        explode: function () {
+          alert('Bang!');
+        },
+
+    };
+
+    var gui = new dat.gui.GUI();
+
+    gui.remember(obj);
+
+    gui.add(obj, 'characters');
+    gui.add(obj, 'displayOutline');
+    gui.add(obj, 'explode');
+
+    gui.add(obj, 'fontSize').min(1).max(18).step(0.25);
+    gui.add(obj, 'height').step(5); // Increment amount
+
+ 
+
+
+
+
+
+var num = obj.characters;
+//converting the string into an array of single characters
+num = num.split("");
+
+var font_size = 10;
+var columns = c.width/font_size; //number of columns for the rain
+
+var drops = [];
+//x below is the x coordinate
+
+for(var x = 0; x < columns; x++)
+  drops[x] = 1; 
+
+//drawing the characters
+function drawMatrix()
+{
+  //Black BG for the canvas
+  //translucent BG to show trail
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, c.width, c.height);
+  
+  ctx.fillStyle = "green"; //green text
+  ctx.font = font_size + "px arial";
+  //looping over drops
+  for(var i = 0; i < drops.length; i++)
+  {
+    //a random number to print
+    var text = num[Math.floor(Math.random()*num.length)];
+    //x = i*font_size, y = value of drops[i]*font_size
+    ctx.fillText(text, i*font_size, drops[i]*font_size);
+    
+
+    if(drops[i]*font_size > c.height && Math.random() > 0.975)
+      drops[i] = 0;
+    
+    
+    drops[i]+=1;
+  }
+}
+
+//canvas loop
+
+setInterval(drawMatrix, 30);
+</script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script type="text/javascript">
+          $(function(){
+             setTimeout(function(){
+                 $("body").fadeOut(1500);}, 5000);
+          });
+  </script>
+
+</body>
+</html>
