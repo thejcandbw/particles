@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+    body {
+      background: black;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.min.js'></script>
+<script>
+  //Characters to use as drops
+var charset = "田由甲申甴电甶男甸甹町画甼甽甾甿畀畁畂畃畄畅畆畇畈畉畊畋界畍畎畏畐畑";
+charset = charset.split("");
+
+//Raindrop-like objects
+function Drop() {
+  this.spawn = function (y, y2) {
+    this.x = random(width);
+    
+    //Spread out the drops
+    this.y = random(y, y2);
+    
+    /* Z value used to
+    adjust size and fall speed
+    for a 3D effect */
+    this.z = random(0, 20);
+    this.size = map(this.z, 0, 20, 15, 20);
+    this.yspeed = map(this.z, 0, 20, 10, 30);
+  }
+  
+  //Spread the drops out far at first
+  this.spawn(-900, -10);
+
+  this.fall = function () {
+    this.y = this.y + this.yspeed;
+
+    if (this.y > height) {
+      /* Reset the drop
+      spreading is not
+      as important */
+      this.spawn(-200, -100);
+    }
+  };
+
+  this.show = function () {
+    textSize(this.size); //smaller is "farther away"
+    fill("#0F0"); //green text
+    text(random(charset), this.x, this.y); //change character for each update
+  }
+}
+
+var drops = [];
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  
+  frameRate(17); //15-20 for nice fallspeed
+  
+  for (var i = 0; i < 150; i++) {
+    drops[i] = new Drop();
+  }
+}
+
+function draw() {
+  /* Lower opacity background
+  for longer trail 
+  (causes old characters to fade
+  as new backgrounds are layered on)*/
+  background('rgba(0, 0, 0, 0.2)');
+  
+  for (var i = 0; i < drops.length; i++) {
+    drops[i].fall();
+    
+    /* optionally draw larger (closer)
+    drops on top */
+    // drops.sort(function (a, b) {
+    //   return a.z - b.z;
+    // });
+    
+    drops[i].show();
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+</script>
+  <script type="text/javascript">
+          $(function(){
+             setTimeout(function(){
+                 $("body").fadeOut(1500);}, 4000);
+          });
+  </script>
+</body>
+</html>
