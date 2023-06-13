@@ -37,7 +37,7 @@
     <!-- End Social -->
 <svg id="covers" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 960 540" preserveAspectRatio="xMidYMin slice">
     <style type="text/css">
-      .brown {fill:#180402;}
+      .brown {fill:#000000;}
     </style>
     <circle class="brown" cx="0" cy="0" r="16"/>
         <circle class="brown" cx="16" cy="16" r="16"/>
@@ -1126,6 +1126,201 @@
 
     <script type='text/javascript' src='https://carnivaltribe.com/wp-content/themes/tribe-new-dawn-v2-6/js/gsap/Physics2DPlugin.min.js?ver=1.0' id='physics2d-js'></script>
 
-    <script type='text/javascript' src='https://carnivaltribe.com/wp-content/themes/tribe-new-dawn-v2-6/js/site.js?ver=1.1' id='site-js'></script>
+    <script type='text/javascript'>
+      jQuery(document).ready(function() {
+  //TRIBE New Dawn
+  
+  //Global
+  //Setup
+    var currentSection;
+    var navSplit = new SplitText("#primary-navigation li a", {type:"chars"});
+    var navOpened = false;
+  var windowWidth = jQuery(window).innerWidth();
+  var windowHeight = jQuery(window).innerHeight();
+  var windowCenterX = windowWidth/2;
+  var windowCenterY = windowHeight/2;
+  
+    gsap.set("#branding", {autoAlpha:0});
+    gsap.set("#primary-navigation", {y:-2500, autoAlpha:0});
+    gsap.set("#navigation", {autoAlpha:0});
+    gsap.set("#social", {autoAlpha:0});
+    gsap.set("#global-footer", {autoAlpha:0});
+    gsap.set("#decorative-frame", {autoAlpha:0});
+    gsap.set("#preloader-logo img", {scale:0.9});
+  //gsap.set("#hero", {scale:1.3, opacity:0.5});
+  //gsap.set("#introduction .container", {scale:0.5});
+  //gsap.set("#particles", {transformStyle: "preserve-3d", rotationY:0.5});
+  gsap.set("#particles", {transformStyle: "preserve-3d"});
+  
+    //Preload 
+    function preload() {
+    
+    if (document.getElementById('distort-filter') !== null ) {
+      var displacement = jQuery("feDisplacementMap");
+      
+      if (navigator.userAgent.indexOf("Chrome") != -1) {
+        gsap.set("#bg", {transformStyle: "preserve-3d"});
+        gsap.to(displacement, {attr:{scale:0}, duration: 2.5, delay:1.5, ease:Expo.easeOut});
+      } else {
+        gsap.set(displacement, {attr:{scale:0}});
+      }
+    }
+    
+        gsap.to("#preloader-logo img", {autoAlpha:1, scale:1, duration:1.5, ease:Expo.easeOut});
+
+    gsap.to("#covers circle", {scale:0, x:"random(-100,100,10)", fill:"random([#0500b7, #cab051, #ec14ff, #510102])", transformOrigin:"center", duration:"random(1,3)", delay:1.4, stagger:{each:0.0007, from:"start"}, ease:Expo.easeOut});
+
+    gsap.to("#preloader-logo", {autoAlpha:0, scale:1.5, duration:2.0, delay:0.1, ease:Expo.easeIn});
+        gsap.to("#branding", {autoAlpha:1, duration:2.5, delay:1.1, ease:Expo.easeInOut});
+        gsap.to("#navigation", {autoAlpha:1, duration:2.5, delay:1.2, ease:Expo.easeInOut});
+        gsap.to("#social", {autoAlpha:1, duration:2.5, delay:1.3, ease:Expo.easeInOut});
+        gsap.to("#global-footer", {autoAlpha:1, duration:2.5, delay:1.5, ease:Expo.easeInOut});
+        gsap.to("#decorative-frame", {autoAlpha:1, duration:2.5, delay:1.0, ease:Expo.easeInOut});
+        //gsap.to("#hero", {scale:1.0, opacity:1.0, duration:3.0, delay:1.0, ease:Expo.easeOut});
+        //gsap.to("#introduction .container", {scale:1.0, duration:3.5, delay:2.5, ease:Expo.easeOut});
+    }
+
+    //Start
+    setTimeout(preload,100);
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+  } else {
+      setTimeout(particles,0);
+  }
+
+    //Navigate
+    function toggleNav() {
+        if (navOpened == false) {
+
+            gsap.set("#primary-navigation", {autoAlpha:1, y:0, zIndex:4000});
+            gsap.set("#navigation", {zIndex:4001});
+            gsap.set("#covers", {opacity:0.9});
+      //gsap.set("#covers circle", {x:"random(-150, 150, 10)"});
+
+            gsap.set(navSplit.chars, {y:"random(50, 150, 1)", opacity:0});
+      gsap.to("#covers circle", {scale:1.0, x:0, fill:"#ffffff", transformOrigin:"center", duration:1.5, delay:0, stagger:{each:0.0005, from:"random"}, ease:Expo.easeOut});
+            gsap.to(navSplit.chars, {y:0, opacity:1, duration:1.75, delay:0.5, stagger:0.009, ease:Expo.easeOut});
+            
+      gsap.to("#navigation .line-top", {y:0, rotation:135, duration:1.0, delay:0.5, ease:Expo.easeInOut});
+            gsap.to("#navigation .line-bottom", {y:0, rotation:-135, duration:1.0, delay:0.5, ease:Expo.easeInOut});
+      
+            gsap.to("#navigation", {y:0, duration:0, delay:1.5, onComplete:updateNavStatus});
+
+        } else {
+            gsap.to("#primary-navigation", {autoAlpha:0, y:-25, duration: 1.0, ease:Expo.easeIn});
+            gsap.to("#primary-navigation", {y:-2500, duration: 0.0, delay:1.3});
+      gsap.to("#covers circle", {scale:0, x:"random(-150,150,10)", fill:"random([#ff3c00, #ff6600, #ff9900])", transformOrigin:"center", duration:"random(1,2)", delay:0, stagger:{each:0.0005, from:"center"}, ease:Expo.easeOut});
+            gsap.to("#navigation .line-top", {y:-3, rotation:0, duration:1.0, delay:0.5, ease:Expo.easeInOut});
+            gsap.to("#navigation .line-bottom", {y:3, rotation:-0, duration:1.0, delay:0.5, ease:Expo.easeInOut});
+      
+            gsap.to("#navigation", {y:0, duration:0, delay:1.5, onComplete:updateNavStatus});
+        }
+    }
+  function updateNavStatus() {
+    if (navOpened == false) {
+      navOpened = true;
+    } else {
+      navOpened = false;
+    }
+  }
+
+    //Menus
+    jQuery("#navigation").on("click", function() {
+        toggleNav();
+        return false;
+    });
+
+    //Nav Icon
+    var navIcon = document.querySelector("#navigation");
+    var navLines = document.querySelectorAll("#navigation span");
+  var navIconBg = document.querySelectorAll("#navigation .menu-toggle");
+    var navIconHover = gsap.timeline({ paused: true });
+    gsap.set( "#navigation .line-top", {y:-3});
+    gsap.set( "#navigation .line-bottom", {y:3});
+
+    navIconHover.to(navLines, {scaleX:0.67, background:"#ff0", duration:0.5, stagger:0, delay:0}, 0);
+    navIconHover.to(navIconBg, {background:"#f90", borderColor:"#f90", duration:0.5, delay:0}, 0);
+
+    navIcon.addEventListener("mouseenter", () => {
+        navIconHover.play();
+    });
+    navIcon.addEventListener("mouseout", () => {
+        navIconHover.reverse();
+    });
+  
+  //GSAP Particles
+  function particles() {
+    var density = 20,
+      speed = 1,
+      body = jQuery("#particles"), 
+      i, 
+      particle;
+    
+    function spawn(particle) {
+  
+      //set the starting values
+      gsap.set(particle, {y:getRandom(30, windowHeight-30), x:getRandom(-60, 0), scale:"random(1,2)" });
+      gsap.to(particle, {physics2D:{velocity:"random(50,200)", angle:"random(-20,20)", gravity:-5}, duration:"random(15,18)", onComplete:spawn, onCompleteParams:[particle]});
+  
+    }
+    
+    for (i = 0; i < density; i++) {
+      spawn( jQuery("<div />", {id:"particle"+i}).addClass("particle").appendTo(body) );
+    }
+  }
+        
+  //Utilities 
+  function getRandom(min, max) {
+    return min + Math.random() * (max - min);
+  }
+  
+  //FancyBox
+  if (document.getElementsByClassName('wp-block-gallery') !== null ) {
+    //Add Classes
+    jQuery(".blocks-gallery-item a").addClass('fancybox');
+    jQuery(".blocks-gallery-item a").attr('data-fancybox','media-gallery');
+    jQuery(".blocks-gallery-item a img").after('<div class="clear"></div>');
+    
+    jQuery(".wp-block-image a").addClass('fancybox');
+    jQuery(".wp-block-image a").attr('data-fancybox','media-gallery');
+    
+    //FancyBox
+    jQuery('.fancybox').fancybox({
+      buttons: [
+      "zoom",
+      "slideShow",
+      "thumbs",
+      "close"
+      ],
+    });
+
+    //Move Thumbs to Gallery Div
+    jQuery(".wp-block-gallery").appendTo(".media-gallery");
+    
+  }
+  
+  //FancyBox (Classic)
+  if (document.getElementsByClassName('gallery') !== null ) {
+    //Add Classes
+    jQuery(".gallery-icon a").addClass('fancybox');
+    jQuery(".gallery-icon a").attr('data-fancybox','media-gallery');
+    jQuery(".gallery-icon a img").after('<div class="clear"></div>');
+    
+    //FancyBox
+    jQuery('.fancybox').fancybox({
+      buttons: [
+      "zoom",
+      "slideShow",
+      "thumbs",
+      "close"
+      ],
+    });
+
+    //Move Thumbs to Gallery Div
+    jQuery(".gallery").appendTo(".media-gallery");
+    
+  }
+  
+});
+    </script>
   </body>
 </html>
